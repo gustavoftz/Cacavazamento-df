@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /assets/includes/
+
+Sitemap: https://cacavazamento-df.com/sitemap.xml

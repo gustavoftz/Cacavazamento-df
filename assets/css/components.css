@@ -1,0 +1,329 @@
+/* =========================================================
+   Caça Vazamentos DF — components.css
+   Componentes específicos de página
+   ========================================================= */
+
+/* ── Step cards (Como Funciona) ─────────────────────────── */
+.steps { gap: var(--gap); }
+.step {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 24px;
+}
+.step-num {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--border);
+  line-height: 1;
+  margin-bottom: 10px;
+}
+.step h3 { font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+.step p  { font-size: 12px; color: var(--muted); line-height: 1.55; }
+
+/* ── Bento grid diferenciais ────────────────────────────── */
+.bento { gap: var(--gap); }
+.bento-num {
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin-bottom: 6px;
+  color: var(--navy);
+}
+.bento-label { font-size: 13px; font-weight: 500; line-height: 1.45; color: var(--bluegray); }
+.card-red .bento-num { color: rgba(255,255,255,0.25); }
+.card-red .bento-label { color: rgba(255,255,255,0.8); }
+
+/* ── Depoimentos ────────────────────────────────────────── */
+.testimonials { gap: var(--gap); }
+.testimonial {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 22px;
+}
+.testimonial-stars { color: #F5A623; font-size: 13px; letter-spacing: 2px; margin-bottom: 10px; }
+.testimonial-quote { font-size: 13px; font-style: italic; color: var(--bluegray); line-height: 1.65; margin-bottom: 14px; }
+.testimonial-author { font-size: 12px; font-weight: 700; color: var(--navy); }
+.testimonial-location { font-size: 11px; color: var(--muted); }
+
+/* ── Comparativo (Como Funciona) ────────────────────────── */
+.comparison {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--gap);
+  margin-top: 24px;
+}
+.comparison-col { padding: 24px; border-radius: var(--radius-md); }
+.comparison-col.col-bad { background: var(--offwhite); }
+.comparison-col.col-good { background: var(--red-soft); }
+.comparison-col h3 { font-size: 14px; margin-bottom: 16px; }
+.comparison-col ul { display: flex; flex-direction: column; gap: 10px; }
+.comparison-col li { font-size: 13px; color: var(--bluegray); padding-left: 18px; position: relative; line-height: 1.5; }
+.comparison-col li::before { position: absolute; left: 0; }
+.col-bad  li::before { content: '✗'; color: var(--muted); }
+.col-good li::before { content: '✓'; color: var(--red); }
+
+/* ── Equipamentos ───────────────────────────────────────── */
+.equipment-grid { gap: var(--gap); }
+.equipment-item { border-top: 2px solid var(--border); padding-top: 20px; }
+.equipment-item h3 { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+.equipment-item p  { font-size: 13px; color: var(--bluegray); line-height: 1.65; }
+.equipment-item .equipment-when {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--red);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 10px;
+}
+
+/* ── Processo steps (numerados) ─────────────────────────── */
+.process-list { display: flex; flex-direction: column; gap: 0; max-width: 680px; }
+.process-step {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 20px;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--border);
+}
+.process-step:last-child { border-bottom: none; }
+.process-num {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--border);
+  line-height: 1;
+  padding-top: 2px;
+}
+.process-content h3 { font-size: 15px; font-weight: 700; margin-bottom: 6px; color: var(--navy); }
+.process-content p  { font-size: 13px; color: var(--bluegray); line-height: 1.7; }
+
+/* ── Tabela de preços ───────────────────────────────────── */
+.price-cards { gap: var(--gap); }
+.price-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 28px 24px;
+}
+.price-card h3 { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+.price-card .price-sub { font-size: 12px; color: var(--muted); margin-bottom: 20px; }
+.price-from { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+.price-value {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--navy);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin: 4px 0 20px;
+}
+.price-includes { display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px; }
+.price-includes li {
+  font-size: 12px;
+  color: var(--bluegray);
+  padding-left: 18px;
+  position: relative;
+  line-height: 1.4;
+}
+.price-includes li::before { content: '✔'; position: absolute; left: 0; color: var(--red); font-size: 10px; top: 2px; }
+
+/* ── Laudo itens ────────────────────────────────────────── */
+.laudo-items { display: flex; flex-direction: column; gap: 0; }
+.laudo-item {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 16px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border);
+  align-items: start;
+}
+.laudo-item:last-child { border-bottom: none; }
+.laudo-item-num {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--red);
+  padding-top: 2px;
+}
+.laudo-item h3 { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+.laudo-item p  { font-size: 13px; color: var(--bluegray); line-height: 1.65; }
+
+/* ── Incluso / Não incluso ──────────────────────────────── */
+.includes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); }
+.includes-list, .excludes-list { display: flex; flex-direction: column; gap: 12px; }
+.includes-list li, .excludes-list li {
+  font-size: 13px;
+  color: var(--bluegray);
+  padding-left: 22px;
+  position: relative;
+  line-height: 1.5;
+}
+.includes-list li::before { content: '✔'; position: absolute; left: 0; color: var(--red); font-weight: 700; }
+.excludes-list li::before { content: '✘'; position: absolute; left: 0; color: var(--muted); font-weight: 700; }
+
+/* ── Badge destaque ─────────────────────────────────────── */
+.badge {
+  display: inline-block;
+  background: var(--red-soft);
+  color: var(--red-hover);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+}
+
+/* ── Caixa de destaque ──────────────────────────────────── */
+.highlight-box {
+  background: var(--red-soft);
+  border: 1px solid rgba(196,30,58,0.15);
+  border-radius: var(--radius-md);
+  padding: 20px 24px;
+}
+.highlight-box p { color: var(--red-hover); font-size: 14px; font-weight: 500; line-height: 1.6; }
+
+/* ── Blog cards ─────────────────────────────────────────── */
+.blog-grid { gap: var(--gap); }
+.blog-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+}
+.blog-card-cat { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--red); margin-bottom: 10px; }
+.blog-card h3 { font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 8px; line-height: 1.3; }
+.blog-card p { font-size: 13px; color: var(--bluegray); line-height: 1.6; flex: 1; margin-bottom: 20px; }
+.blog-card-link { font-size: 13px; font-weight: 600; color: var(--red); display: flex; align-items: center; gap: 4px; }
+
+/* ── Artigo (blog post) ─────────────────────────────────── */
+.article-header { padding: 56px 0 40px; background: var(--hero-bg); }
+.article-header .label { margin-bottom: 12px; }
+.article-header h1 { font-size: clamp(28px, 4vw, 40px); max-width: 720px; }
+.article-header .lead { margin-top: 16px; max-width: 640px; }
+.article-body { max-width: 720px; margin: 0 auto; padding: 56px 24px; }
+.article-body h2 { margin: 40px 0 16px; font-size: 22px; }
+.article-body h3 { margin: 28px 0 10px; font-size: 17px; }
+.article-body p  { margin-bottom: 16px; font-size: 15px; line-height: 1.8; color: var(--bluegray); }
+.article-body ul, .article-body ol { margin: 16px 0; padding-left: 20px; }
+.article-body li { font-size: 15px; color: var(--bluegray); margin-bottom: 8px; line-height: 1.7; }
+.article-body .cta-inline { margin: 32px 0; }
+
+/* ── Responsivo componentes ─────────────────────────────── */
+@media (max-width: 768px) {
+  .comparison { grid-template-columns: 1fr; }
+  .includes-grid { grid-template-columns: 1fr; }
+  .process-step { grid-template-columns: 36px 1fr; gap: 12px; }
+}
+
+/* ── Bento 5-card: explicit column placement (desktop) ──── */
+/* Prevents unexpected reflow if any card gains a span later */
+@media (min-width: 769px) {
+  .bento > *:nth-child(4) { grid-column: 1; }
+  .bento > *:nth-child(5) { grid-column: 2; }
+}
+
+/* ── Hardened: replaced inline styles ───────────────────── */
+
+/* WhatsApp float button shadow */
+.whatsapp-float .btn-primary {
+  box-shadow: 0 4px 16px rgba(196,30,58,0.35);
+}
+
+/* Hero lead paragraph */
+.hero .lead { margin-top: 16px; max-width: 520px; }
+
+/* Price card full-width CTA */
+.price-card .btn-primary { width: 100%; justify-content: center; }
+
+/* Narrow content container */
+.container--narrow { max-width: 720px; }
+
+/* Bento text variant (non-numeric: Antes / Sem quebra / CNPJ) */
+.bento-num--text { font-size: 22px; }
+
+/* Laudo feature two-column section */
+.laudo-feature > .container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+@media (max-width: 768px) {
+  .laudo-feature > .container { grid-template-columns: 1fr; gap: 32px; }
+}
+
+/* Card padded variant */
+.card--padded { padding: 32px; }
+.card--padded > h3 { font-size: 15px; margin-bottom: 20px; }
+
+/* Card h3 bottom margin (increase from 4px to 8px) */
+.card h3 { margin-bottom: 8px; }
+
+/* Card muted link (region cards, related articles) */
+.card-link { text-decoration: none; display: block; padding: 16px 20px; }
+.card-link .card-title { font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+.card-link .card-sub   { font-size: 12px; color: var(--muted); }
+
+/* Regions grid tighter gap */
+.regions-grid { gap: 12px; }
+
+/* CTA strip footnote */
+.cta-footnote { margin-top: 16px; font-size: 12px; color: var(--muted); }
+
+/* Article inline links */
+.article-body a { color: var(--red); }
+.link-red { color: var(--red); }
+
+/* Blog content CTA box */
+.content-cta-box {
+  padding: 32px;
+  background: var(--offwhite);
+  border-radius: var(--radius-md);
+  text-align: center;
+  margin-top: 48px;
+}
+.content-cta-box h2 { font-size: 22px; margin-bottom: 12px; }
+.content-cta-box p  { margin-bottom: 24px; }
+
+/* Related articles section */
+.related-articles {
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+}
+.related-articles .label { margin-bottom: 16px; }
+.related-articles .grid-2 { gap: 16px; }
+
+/* 404 / error page */
+.page-error { padding: 120px 0; text-align: center; }
+.page-error h1 { font-size: 48px; margin-bottom: 16px; }
+.page-error > .container > p { max-width: 480px; margin: 0 auto 32px; }
+.page-error-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+/* Preco page includes/excludes headings */
+.includes-grid h3 { font-size: 14px; margin-bottom: 16px; }
+
+/* Preco page transparency note */
+.transparency-note {
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--bluegray);
+  padding: 16px 20px;
+  background: var(--offwhite);
+  border-radius: var(--radius-md);
+}
+
+/* Internal links row (como-funciona, como-identificar) */
+.links-row {
+  margin-top: 12px;
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Muted secondary text links */
+.btn-secondary-text--muted { color: var(--muted); }

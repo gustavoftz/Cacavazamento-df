@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__Claude_Preview__preview_start",
+      "Bash(python3:*)",
+      "Bash(xargs sed:*)",
+      "Bash(xargs perl:*)",
+      "Bash(grep -i \"google\\\\|analytics\\\\|facebook\\\\|tracking\\\\|cdn\" /Users/k9/cacavazamentos-df/*.html /Users/k9/cacavazamentos-df/blog/index.html)",
+      "Bash(grep -r \"Meta\\\\|meta.*security\\\\|meta.*http-equiv\" /Users/k9/cacavazamentos-df/*.html)",
+      "Bash(grep -r \"style=\" /Users/k9/cacavazamentos-df/*.html)",
+      "Bash(find . -name \"*.html\" -not -path \"./assets/includes/footer.html\" -exec sed -i '' 's/ · CNPJ 31\\\\.140\\\\.324\\\\/0001-59//g' {} +)",
+      "Read(//Users/k9/Downloads/**)",
+      "Bash(identify /Users/k9/Downloads/Gemini_Generated_Image_veh5e9veh5e9veh5.png)",
+      "Bash(sips -g pixelWidth -g pixelHeight /Users/k9/Downloads/Gemini_Generated_Image_veh5e9veh5e9veh5.png)",
+      "Bash(pip3 install:*)",
+      "Bash(magick identify:*)",
+      "Bash(convert -version)",
+      "Bash(echo \"=== Pages still containing hardcoded <header role=\"\"banner\"\"> ===\")",
+      "Bash(echo \"=== Pages still containing hardcoded <footer class=\"\"footer\"\"> ===\")",
+      "Bash(done)",
+      "Bash(git init:*)",
+      "Bash(git add:*)"
+    ]
+  }
+}
