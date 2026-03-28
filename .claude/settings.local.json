@@ -19,7 +19,8 @@
       "Bash(echo \"=== Pages still containing hardcoded <footer class=\"\"footer\"\"> ===\")",
       "Bash(done)",
       "Bash(git init:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ]
   }
 }

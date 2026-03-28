@@ -132,6 +132,8 @@ function decoratePageChrome() {
     body.classList.add('page-standard');
     decorateStandardHero(hero, context);
   }
+
+  decorateConversionPaths(context);
 }
 
 function decorateStandardHero(hero, context) {
@@ -166,6 +168,8 @@ function decorateStandardHero(hero, context) {
     '<span class="hero-proof-card__kicker">' + escapeHtml(heroConfig.kicker) + '</span>';
   spotlight.appendChild(proof);
 
+  spotlight.appendChild(createHeroIllustrationCard(context));
+
   var pillars = document.createElement('div');
   pillars.className = 'hero-pillars';
   heroConfig.pillars.forEach(function(pillar) {
@@ -197,6 +201,32 @@ function decorateArticleHeader(header, context) {
     return '<span>' + escapeHtml(item) + '</span>';
   }).join('');
   lead.insertAdjacentElement('afterend', meta);
+
+  if (context.isBlogArticle) {
+    meta.insertAdjacentElement('afterend', createArticleVisualBreak(context));
+  }
+}
+
+function createHeroIllustrationCard(context) {
+  return document.createDocumentFragment();
+}
+
+function createArticleVisualBreak(context) {
+  var config = getArticleVisualConfig(context);
+  var box = document.createElement('div');
+  box.className = 'article-visual-break';
+  box.innerHTML =
+    '<div class="article-visual-break__content">' +
+      '<strong>' + escapeHtml(config.title) + '</strong>' +
+      '<p>' + escapeHtml(config.body) + '</p>' +
+      '<ul class="article-visual-break__list">' +
+        config.points.map(function(point) {
+          return '<li>' + escapeHtml(point) + '</li>';
+        }).join('') +
+      '</ul>' +
+    '</div>' +
+    '<img src="' + escapeHtml(config.src) + '" alt="' + escapeHtml(config.alt) + '">';
+  return box;
 }
 
 function getPageContext() {
@@ -223,7 +253,7 @@ function getHeroConfig(context, chips) {
     eyebrow: 'Atendimento local',
     value: 'Brasília e DF',
     body: 'Diagnóstico com equipamento, estimativa antes da visita e orientação clara sobre o próximo passo.',
-    kicker: 'Sem depoimentos por enquanto, então o foco visual aqui fica em processo, clareza e sinais de confiança.',
+    kicker: 'Atendimento com processo claro, comunicação direta e foco em diagnóstico sem quebra desnecessária.',
     pillars: [
       { label: 'Transparência', text: chips[0] ? chips[0].textContent : 'Faixa de preço antes do agendamento' },
       { label: 'Método', text: chips[1] ? chips[1].textContent : 'Diagnóstico com geofone e termografia' },
@@ -341,6 +371,262 @@ function getArticleConfig(context) {
     'Leitura guiada',
     'Próximo passo mais claro'
   ];
+}
+
+function getArticleVisualConfig(context) {
+  var defaults = {
+    src: '/assets/img/illustration-guia.svg',
+    alt: 'Ilustração editorial com checklist técnico',
+    title: 'O objetivo aqui é reduzir tentativa e erro',
+    body: 'Cada guia ajuda você a separar sintoma, teste simples e o momento certo de chamar um diagnóstico com equipamento.',
+    points: [
+      'Entender o problema antes de gastar com reparo errado',
+      'Saber quando a situação pede laudo técnico',
+      'Chegar no WhatsApp já com contexto claro do caso'
+    ]
+  };
+
+  if (context.path.indexOf('/blog/revisao-conta-agua-caesb-como-pedir') === 0) {
+    defaults.title = 'Na revisão da CAESB, o documento pesa mais do que o protocolo';
+    defaults.body = 'O pedido até pode ser aberto sem laudo, mas a chance de indeferimento aumenta quando faltam localização precisa, método e evidências.';
+    defaults.points = [
+      'Laudo completo ajuda a delimitar o período analisado',
+      'Histórico de consumo e comprovantes reforçam o caso',
+      'Quanto antes detectar, menor a perda de água e dinheiro'
+    ];
+  } else if (context.path.indexOf('/blog/conta-de-agua-alta-o-que-fazer') === 0) {
+    defaults.title = 'Conta alta pede teste rápido e ação sem demora';
+    defaults.body = 'Se o hidrômetro seguir girando com tudo fechado, cada dia sem diagnóstico tende a virar mais água perdida e mais conta acumulada.';
+    defaults.points = [
+      'Teste do hidrômetro antes de chamar qualquer reparo',
+      'Laudo técnico quando o vazamento está oculto',
+      'Estimativa pelo WhatsApp antes de agendar a visita'
+    ];
+  }
+
+  return defaults;
+}
+
+function decorateConversionPaths(context) {
+  decoratePricingSection(context);
+  decorateFaqAssurance(context);
+
+  if (context.isRegion) {
+    enhanceRegionPage(context);
+  }
+
+  if (context.isBlogArticle) {
+    enhanceBlogArticle(context);
+  }
+
+  if (context.isBlogIndex) {
+    enhanceBlogIndex(context);
+  }
+}
+
+function decoratePricingSection(context) {
+  if (!context.isHome && !context.isPrice) return;
+
+  var cards = document.querySelector('.price-cards');
+  if (!cards || cards.dataset.enhanced === 'true') return;
+  cards.dataset.enhanced = 'true';
+
+  var band = createConversionBand({
+    eyebrow: 'Confirmação rápida pelo WhatsApp',
+    title: context.isPrice ? 'Receba a faixa certa antes de reservar horário' : 'Se o preço já faz sentido, o próximo passo é confirmar a faixa do seu caso',
+    body: context.isPrice
+      ? 'Descreva tipo de imóvel, sintoma e região. A resposta já sai com previsão de faixa, prazo e se o atendimento no mesmo dia é viável.'
+      : 'Você pode validar o caso pelo WhatsApp sem custo para consultar e sem deixar o agendamento em aberto.',
+    page: 'preco',
+    primary: context.isPrice ? 'Confirmar valor pelo WhatsApp' : 'Confirmar estimativa pelo WhatsApp',
+    secondaryHref: '/como-funciona-caca-vazamento',
+    secondaryText: 'Entender como funciona',
+    proof: [
+      'Sem cobrança para consultar',
+      'Não achou, não cobra',
+      'Conserto só depois do diagnóstico'
+    ]
+  });
+
+  cards.insertAdjacentElement('afterend', band);
+}
+
+function decorateFaqAssurance(context) {
+  var faq = document.querySelector('.faq');
+  if (!faq || faq.nextElementSibling && faq.nextElementSibling.classList && faq.nextElementSibling.classList.contains('faq-assurance')) return;
+
+  var config = getFaqAssuranceConfig(context);
+  var box = document.createElement('div');
+  box.className = 'faq-assurance';
+  box.innerHTML =
+    '<div class="faq-assurance__title">' + escapeHtml(config.title) + '</div>' +
+    '<p>' + escapeHtml(config.body) + '</p>' +
+    '<button class="btn-primary" data-page="' + escapeHtml(config.page) + '">' + escapeHtml(config.primary) + '</button>' +
+    '<a href="' + escapeHtml(config.secondaryHref) + '" class="btn-ghost">' + escapeHtml(config.secondaryText) + '</a>';
+  faq.insertAdjacentElement('afterend', box);
+}
+
+function enhanceRegionPage(context) {
+  var ctaStrip = document.querySelector('.cta-strip');
+  if (ctaStrip && !(ctaStrip.previousElementSibling && ctaStrip.previousElementSibling.querySelector && ctaStrip.previousElementSibling.querySelector('.resource-links'))) {
+    ctaStrip.insertAdjacentElement('beforebegin', createResourceLinks({
+      label: 'Antes de agendar',
+      title: 'Veja o que costuma ajudar antes da vistoria',
+      body: 'Esses links respondem às perguntas que mais travam a decisão: preço, laudo e como funciona o diagnóstico sem quebra.',
+      cards: [
+        { href: '/preco-caca-vazamento-brasilia', title: 'Preço do diagnóstico', text: 'Faixas por tipo de imóvel e o que entra no valor' },
+        { href: '/como-funciona-caca-vazamento', title: 'Como funciona', text: 'Do WhatsApp ao laudo, sem surpresa na visita' },
+        { href: '/laudo-caesb-revisao-conta', title: 'Laudo CAESB', text: 'Quando ele importa e o que vem no documento' }
+      ]
+    }, true));
+  }
+}
+
+function enhanceBlogArticle(context) {
+  var articleBody = document.querySelector('.article-body');
+  if (!articleBody) return;
+
+  var related = articleBody.querySelector('.related-articles');
+  if (related && !(related.previousElementSibling && related.previousElementSibling.classList && related.previousElementSibling.classList.contains('resource-links'))) {
+    related.insertAdjacentElement('beforebegin', createResourceLinks(getBlogArticleLinks(context), false));
+  }
+}
+
+function enhanceBlogIndex() {
+  var grid = document.querySelector('.blog-grid');
+  if (!grid || grid.previousElementSibling && grid.previousElementSibling.classList && grid.previousElementSibling.classList.contains('blog-quick-start')) return;
+
+  var intro = document.createElement('div');
+  intro.className = 'blog-quick-start';
+  intro.innerHTML =
+    '<span class="label">Comece por aqui</span>' +
+    '<h2>Leituras rápidas para decidir melhor</h2>' +
+    '<p>Se você está comparando preço, tentando entender se precisa de laudo ou quer saber como funciona o diagnóstico, estes atalhos encurtam o caminho.</p>' +
+    '<div class="blog-quick-grid">' +
+      createResourceCard('/preco-caca-vazamento-brasilia', 'Preço do diagnóstico', 'Faixas de valor, o que entra e o que fica para o reparo') +
+      createResourceCard('/como-funciona-caca-vazamento', 'Como funciona a vistoria', 'Equipamentos, etapas e o que esperar da visita') +
+      createResourceCard('/laudo-caesb-revisao-conta', 'Laudo CAESB', 'Quando o documento pesa na revisão da conta de água') +
+    '</div>';
+  grid.insertAdjacentElement('beforebegin', intro);
+}
+
+function getFaqAssuranceConfig(context) {
+  if (context.isPrice) {
+    return {
+      title: 'Ainda comparando opções? O preço exato pode ser confirmado sem marcar visita.',
+      body: 'A mensagem ideal já traz tipo de imóvel, região e sintoma principal. Com isso, você recebe faixa de valor e entende se vale agir agora ou apenas monitorar.',
+      page: 'preco',
+      primary: 'Confirmar valor pelo WhatsApp',
+      secondaryHref: '/blog/conta-de-agua-alta-o-que-fazer',
+      secondaryText: 'Ver o que testar antes'
+    };
+  }
+
+  if (context.isBlogArticle) {
+    return {
+      title: 'Se o conteúdo bate com o seu caso, não precisa adivinhar o próximo passo.',
+      body: 'Descreva o sintoma pelo WhatsApp e receba orientação inicial com faixa de preço antes de qualquer visita. Isso ajuda a agir cedo e evita deixar o problema crescer.',
+      page: 'blog',
+      primary: 'Falar sobre meu caso',
+      secondaryHref: '/preco-caca-vazamento-brasilia',
+      secondaryText: 'Ver preço do diagnóstico'
+    };
+  }
+
+  if (context.isRegion) {
+    return {
+      title: 'Atendimento na região com clareza antes da visita.',
+      body: 'Confirmamos faixa de preço, se o laudo faz sentido no seu caso e se há agenda no mesmo dia. Sem compromisso para consultar.',
+      page: 'regiao',
+      primary: 'Solicitar estimativa agora',
+      secondaryHref: '/preco-caca-vazamento-brasilia',
+      secondaryText: 'Conferir faixas de preço'
+    };
+  }
+
+  return {
+    title: 'Ainda com dúvida? O atendimento pelo WhatsApp já resolve o primeiro filtro.',
+    body: 'Você pode validar o caso, confirmar preço e entender se precisa do laudo sem marcar visita de imediato.',
+    page: 'home',
+    primary: 'Falar no WhatsApp',
+    secondaryHref: '/como-funciona-caca-vazamento',
+    secondaryText: 'Ver como funciona'
+  };
+}
+
+function getBlogArticleLinks(context) {
+  var base = {
+    label: 'Próximo passo',
+    title: 'Links úteis para sair da leitura e decidir',
+    body: 'Se você quer entender custo, processo ou quando o laudo entra na história, estes atalhos ajudam sem precisar voltar para o menu.',
+    cards: [
+      { href: '/preco-caca-vazamento-brasilia', title: 'Preço do diagnóstico', text: 'Faixas reais e o que está incluso na vistoria' },
+      { href: '/como-funciona-caca-vazamento', title: 'Como funciona a vistoria', text: 'Etapas, equipamentos e o que acontece na visita' },
+      { href: '/laudo-caesb-revisao-conta', title: 'Laudo técnico CAESB', text: 'Quando o documento importa para revisão de conta' }
+    ]
+  };
+
+  if (context.path.indexOf('/blog/revisao-conta-agua-caesb-como-pedir') === 0) {
+    base.cards[2] = { href: '/caca-vazamento-apartamento-brasilia', title: 'Diagnóstico em apartamento', text: 'Um dos cenários mais comuns para conta alta e laudo CAESB' };
+  }
+
+  return base;
+}
+
+function createConversionBand(config) {
+  var band = document.createElement('div');
+  band.className = 'conversion-band';
+  band.innerHTML =
+    '<span class="label conversion-band__eyebrow">' + escapeHtml(config.eyebrow) + '</span>' +
+    '<div class="conversion-band__grid">' +
+      '<div>' +
+        '<h3>' + escapeHtml(config.title) + '</h3>' +
+        '<p>' + escapeHtml(config.body) + '</p>' +
+        '<div class="conversion-proof">' +
+          config.proof.map(function(item) {
+            return '<span>' + escapeHtml(item) + '</span>';
+          }).join('') +
+        '</div>' +
+      '</div>' +
+      '<div class="conversion-band__actions">' +
+        '<button class="btn-primary" data-page="' + escapeHtml(config.page) + '">' + escapeHtml(config.primary) + '</button>' +
+        '<a href="' + escapeHtml(config.secondaryHref) + '" class="btn-ghost">' + escapeHtml(config.secondaryText) + '</a>' +
+      '</div>' +
+    '</div>';
+  return band;
+}
+
+function createResourceLinks(config, asSection) {
+  if (asSection) {
+    var section = document.createElement('section');
+    section.className = 'bg-white';
+    section.innerHTML =
+      '<div class="container">' +
+        createResourceLinksInner(config) +
+      '</div>';
+    return section;
+  }
+
+  var wrap = document.createElement('div');
+  wrap.innerHTML = createResourceLinksInner(config);
+  return wrap.firstElementChild;
+}
+
+function createResourceLinksInner(config) {
+  return '<div class="resource-links">' +
+    '<span class="label">' + escapeHtml(config.label) + '</span>' +
+    '<h2>' + escapeHtml(config.title) + '</h2>' +
+    '<p>' + escapeHtml(config.body) + '</p>' +
+    '<div class="resource-links__grid">' +
+      config.cards.map(function(card) {
+        return createResourceCard(card.href, card.title, card.text);
+      }).join('') +
+    '</div>' +
+  '</div>';
+}
+
+function createResourceCard(href, title, text) {
+  return '<a href="' + escapeHtml(href) + '" class="resource-card"><strong>' + escapeHtml(title) + '</strong><span>' + escapeHtml(text) + '</span></a>';
 }
 
 function escapeHtml(value) {
